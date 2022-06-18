@@ -15,18 +15,20 @@ import {uiKit} from './styles/ui';
 import {useObserver} from 'mobx-react';
 import {palette} from './styles/colors';
 import {CustomNavigator} from './routes';
+import C from 'consistencss';
 
 uiKit();
 
+console.log = () => {};
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? palette.dark : palette.whiteTwo,
+    backgroundColor: isDarkMode ? palette.dark : palette.white,
   };
 
   return useObserver(() => (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={[backgroundStyle, C.flex]}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <CustomNavigator />
     </SafeAreaView>
