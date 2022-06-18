@@ -7,11 +7,21 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
+    "pods": "cd ios && arch -x86_64 pod install",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-navigation/bottom-tabs": "^6.3.1",
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.2",
+    "consistencss": "^1.7.0",
+    "mobx": "^6.6.0",
+    "mobx-react": "^7.5.0",
     "react": "17.0.2",
-    "react-native": "0.68.2"
+    "react-native": "0.68.2",
+    "react-native-safe-area-context": "^4.3.1",
+    "react-native-screens": "^3.13.1",
+    "react-native-vector-icons": "^9.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
