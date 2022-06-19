@@ -9,29 +9,28 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import {LogBox, SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 
 import {uiKit} from './styles/ui';
 import {useObserver} from 'mobx-react';
-import {palette} from './styles/colors';
 import {CustomNavigator} from './routes';
 import C from 'consistencss';
+import {StoreProvider} from './store/MovieProvider';
 
 uiKit();
 
-console.log = () => {};
+LogBox.ignoreLogs(['Warning:', 'Error']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? palette.dark : palette.white,
-  };
-
   return useObserver(() => (
-    <SafeAreaView style={[backgroundStyle, C.flex]}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <CustomNavigator />
-    </SafeAreaView>
+    <StoreProvider>
+      <SafeAreaView style={[C.bgDark, C.flex]}>
+        <StatusBar barStyle={'light-content'} />
+        <CustomNavigator />
+      </SafeAreaView>
+    </StoreProvider>
   ));
 };
 

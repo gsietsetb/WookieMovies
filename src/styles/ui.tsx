@@ -23,3 +23,8 @@ export const uiKit = () =>
     },
     colors: palette,
   });
+
+export const topRadius = (rad = 4) => ({
+  borderTopLeftRadius: rad * BASE_PIXEL,
+  borderTopRightRadius: rad * BASE_PIXEL,
+});
