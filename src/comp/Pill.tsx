@@ -12,17 +12,22 @@ type CardProps = {
    */
   selected?: boolean;
   /**
+   * Current Movie
+   */
+  number?: number;
+  /**
    * onPress callback
    */
   onPress?: () => void;
 };
 
-export default ({name, selected = true, onPress}: CardProps) => {
+export default ({name, selected = true, onPress, number}: CardProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[
         C.ml4,
+        C.mb4,
         C.row,
         C.px3,
         C.py1,
@@ -35,7 +40,7 @@ export default ({name, selected = true, onPress}: CardProps) => {
       <Text
         numberOfLines={2}
         style={[C.weightBold, selected ? C.textDark : C.textGreyish]}>
-        {name}
+        {name} {number > 1 && '(' + number + ')'}
       </Text>
     </TouchableOpacity>
   );

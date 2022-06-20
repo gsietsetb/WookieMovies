@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
 import _ from 'lodash';
-import {flattenByKey, groupByGenre, matchingKeyArrays} from '../utils/data';
-import {MoviesList} from '../screens/MovieDetails';
+import {groupByTopic, toggleList} from '../utils/data';
+import {Movie, MoviesList} from '../screens/MovieDetails';
 
 export const createMovieStore = () => {
   const store = makeAutoObservable({
@@ -10,6 +10,7 @@ export const createMovieStore = () => {
       store.movies = movies.movies;
     },
 
+    /** Search*/
     search: '',
     setSearch: (pattern: string) => {
       store.search = pattern;
@@ -18,39 +19,58 @@ export const createMovieStore = () => {
       store.search = '';
     },
 
-    filters: [],
+    get matchingSearch() {
+      return _.isEmpty(store.search)
+        ? store.movies
+        : store.movies.filter(({title}: Movie) =>
+            title.toLowerCase().includes(store.search.toLowerCase()),
+          );
+    },
+
+    get noResults() {
+      return _.isEmpty(store.matchingSearch);
+    },
+
     get categories() {
-      return store.movies ? groupByGenre(store?.movies) : {};
+      return store.matchingSearch ? groupByTopic(store?.matchingSearch) : {};
     },
 
+    get cast() {
+      return store.matchingSearch
+        ? groupByTopic(store?.matchingSearch, 'cast')
+        : {};
+    },
+
+    /** Filters*/
+    categoryFilter: [],
+    toggleCategoryFilter: (key: string) => {
+      store.categoryFilter = toggleList(store.categoryFilter, key);
+    },
+
+    get matchingCategories() {
+      return _.isEmpty(store.categoryFilter)
+        ? Object.entries(store.categories)
+        : Object.entries(store.categories).filter(([key]) =>
+            store.categoryFilter.includes(key),
+          );
+    },
+
+    /** Favorites*/
+    toggleFavorite: (currentId: string) => {
+      const pos = _.findIndex(store.movies, ({id}) => id === currentId);
+      if (store.movies[pos].hasOwnProperty('favorite')) {
+        store.movies[pos].favorite = !store.movies[pos].favorite;
+      } else {
+        store.movies[pos] = Object.assign(store.movies[pos], {
+          favorite: true,
+        });
+      }
+    },
     get favorites() {
-      return _.filter(store.currFilters, ({favorite}) => !!favorite);
+      return _.filter(store.movies, ({favorite}) => !!favorite);
     },
-
-    get matchingFilters() {
-      return _.filter(store.currFilters, ({marked}) => !!marked);
-    },
-
-    get hasMatchingFilters() {
-      return !_.isEmpty(store.matchingFilters);
-    },
-    get currentHighlights() {
-      return store.matchingList
-        .filter(({highlight}) => !!highlight)
-        .slice(0, 6);
-    },
-
-    get matchingList() {
-      return !_.isEmpty(store.matchingFilters)
-        ? store.user.highlights.filter(
-            ({technologies}) =>
-              technologies &&
-              matchingKeyArrays(
-                flattenByKey(technologies),
-                flattenByKey(store.matchingFilters),
-              ),
-          )
-        : store.user.highlights;
+    get favBadge() {
+      return store.favorites.length;
     },
   });
   return store;

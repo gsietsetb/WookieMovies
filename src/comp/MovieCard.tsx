@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {palette} from '../styles/colors';
 import React from 'react';
 import {Movie} from '../screens/MovieDetails';
+import {useObserver} from 'mobx-react';
 
 type CardProps = {
   /**
@@ -15,12 +16,17 @@ type CardProps = {
    * onPress callback
    */
   onPress?: () => void;
+  /**
+   * onLongPress callback
+   */
+  onLongPress?: () => void;
 };
 
-export default ({movie, onPress}: CardProps) => {
-  return (
+export default ({movie, onPress, onLongPress}: CardProps) => {
+  return useObserver(() => (
     <TouchableOpacity
       onPress={onPress}
+      onLongPress={onLongPress}
       style={[C.mr4, C.bgWhite, C.radius4, C.w30]}>
       <Image
         source={{uri: movie.poster}}
@@ -33,12 +39,16 @@ export default ({movie, onPress}: CardProps) => {
         </Text>
         <View style={[C.row, C.justifyBetween, C.itemsCenter]}>
           <View style={[C.row]}>
-            <Icon name="star" size={BASE_PIXEL * 4} />
+            <Icon name="star-o" size={BASE_PIXEL * 4} />
             <Text style={[C.ml2]}>{movie.imdb_rating}</Text>
           </View>
-          <Icon name="heart" size={BASE_PIXEL * 4} color={palette.salmon} />
+          <Icon
+            name={movie.favorite ? 'heart' : 'heart-o'}
+            size={BASE_PIXEL * 4}
+            color={!movie.favorite ? palette.dark : palette.salmon}
+          />
         </View>
       </View>
     </TouchableOpacity>
-  );
+  ));
 };

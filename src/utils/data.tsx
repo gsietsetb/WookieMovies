@@ -9,13 +9,19 @@ export const fetchConfig: RequestInit = {
   headers: new Headers({Authorization: 'Bearer Wookie2019'}),
 };
 
-export const groupByGenre = (list: Movie[]) =>
+export const toggleList = (list: [], name: string) =>
+  list.includes(name) ? list.filter(c => c !== name) : list.push(name);
+
+export const sortByLength = (list: Object) =>
+  Object.keys(list).sort((a, b) => (list[a].length > list[b].length ? -1 : 1));
+
+export const groupByTopic = (list: Movie[], topic = 'genres') =>
   list.reduce((accum: Object, currentMovie: Movie) => {
-    currentMovie.genres.map((currentGenre: string) => {
-      if (accum.hasOwnProperty(currentGenre)) {
-        accum[currentGenre].push(currentMovie);
+    currentMovie[topic].map((currentKind: string) => {
+      if (accum.hasOwnProperty(currentKind)) {
+        accum[currentKind].push(currentMovie);
       } else {
-        accum = {...accum, [currentGenre]: [currentMovie]};
+        accum = {...accum, [currentKind]: [currentMovie]};
       }
       return accum;
     });

@@ -8,6 +8,9 @@ import {MovieDetails} from './screens/MovieDetails';
 import {StyleSheet, View} from 'react-native';
 import C from 'consistencss';
 import {palette} from './styles/colors';
+import {Favorites} from './screens/Favorites';
+import {useStores} from './store/MovieProvider';
+import {useObserver} from 'mobx-react';
 
 export const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,16 +44,14 @@ const MovieStackScreen = () => (
 );
 
 export const CustomNavigator: React.FC<{}> = () => {
-  return (
+  const store = useStores();
+  return useObserver(() => (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
-          tabBarStyle: {position: 'absolute'},
+          tabBarStyle: [C.absolute, C.bgDark],
           tabBarActiveTintColor: palette.white,
           tabBarInactiveTintColor: palette.greyish,
-          tabBarBackground: () => (
-            <View style={[StyleSheet.absoluteFill, C.bgDark]} />
-          ),
         }}>
         <Tab.Screen
           name={Routes.HOME_STACK}
@@ -67,9 +68,10 @@ export const CustomNavigator: React.FC<{}> = () => {
         />
         <Tab.Screen
           name={Routes.MOVIE_FAVORITES}
-          component={Home}
+          component={Favorites}
           options={{
             headerShown: false,
+            tabBarBadge: store?.favBadge,
             tabBarIcon: ({color, size}) => (
               <Icon name="heart" size={size} color={color} />
             ),
@@ -77,5 +79,5 @@ export const CustomNavigator: React.FC<{}> = () => {
         />
       </Tab.Navigator>
     </NavigationContainer>
-  );
+  ));
 };
