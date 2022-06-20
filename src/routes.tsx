@@ -71,7 +71,8 @@ export const CustomNavigator: React.FC<{}> = () => {
           component={Favorites}
           options={{
             headerShown: false,
-            tabBarBadge: store?.favBadge,
+            tabBarBadge:
+              store && store?.favBadge > 0 ? store?.favBadge : undefined,
             tabBarIcon: ({color, size}) => (
               <Icon name="heart" size={size} color={color} />
             ),

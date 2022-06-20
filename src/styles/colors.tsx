@@ -14,3 +14,5 @@ export const palette = {
   salmon: '#F28372',
   greenishTeal: '#32c6a2',
 };
+
+export type PaletteColor = keyof typeof palette;

@@ -27,7 +27,7 @@ export default ({movie, onPress, onLongPress}: CardProps) => {
     <TouchableOpacity
       onPress={onPress}
       onLongPress={onLongPress}
-      style={[C.mr4, C.bgWhite, C.radius4, C.w30]}>
+      style={[C.mr4, C.my2, C.bgWhite, C.radius4, C.w30]}>
       <Image
         source={{uri: movie.poster}}
         // @ts-ignore

@@ -33,14 +33,12 @@ export default ({name, selected = true, onPress, number}: CardProps) => {
         C.py1,
         C.itemsCenter,
         C.justifyCenter,
-        C.bgWhite,
+        selected ? C.bgWhite : C.bgGreyish,
         C.radius2,
         C.flex,
       ]}>
-      <Text
-        numberOfLines={2}
-        style={[C.weightBold, selected ? C.textDark : C.textGreyish]}>
-        {name} {number > 1 && '(' + number + ')'}
+      <Text numberOfLines={2} style={[selected ? C.textBlack : C.textDark]}>
+        {name} {number && number > 1 && '(' + number + ')'}
       </Text>
     </TouchableOpacity>
   );

@@ -1,9 +1,7 @@
-import React, {useEffect} from 'react';
-import {Alert, FlatList, ScrollView, Text} from 'react-native';
-import {useFetch} from 'usehooks-ts';
-import {BASE_URL, fetchConfig} from '../utils/data';
+import React from 'react';
+import {FlatList, ScrollView, Text} from 'react-native';
 import C from 'consistencss';
-import {Movie, MoviesList} from './MovieDetails';
+import {Movie} from './MovieDetails';
 import {useNavigation} from '@react-navigation/native';
 import MovieCard from '../comp/MovieCard';
 import {Routes} from '../routes';
@@ -14,34 +12,37 @@ import EmptyScreen from '../comp/EmptyScreen';
 
 export const Favorites: React.FC = () => {
   const store = useStores();
-  const {data: moviesList, error} = useFetch<MoviesList>(BASE_URL, {
-    ...fetchConfig,
-  });
   const {navigate} = useNavigation();
+  /*const {data: moviesList, error} = useFetch<MoviesList>(BASE_URL, {
+       ...fetchConfig,
+     });
 
-  if (error) {
-    Alert.alert('Fetching Error', 'Got an Error fetching movies...' + error);
-  }
+     if (error) {
+       Alert.alert('Fetching Error', 'Got an Error fetching movies...' + error);
+     }
 
-  /**Update stores when fetching data*/
-  useEffect(() => {
-    if (store && moviesList) {
-      store?.setMovies(moviesList);
-    }
-  }, [store, moviesList]);
+     /!**Update stores when fetching data*!/
+     useEffect(() => {
+       if (store && moviesList) {
+         store?.setMovies(moviesList);
+       }
+     }, [store, moviesList]);*/
 
   const openDetails = (item: Movie) =>
     navigate(Routes.MOVIE_DETAILS, {movie: item});
 
   return useObserver(() => (
-    <ScrollView contentInsetAdjustmentBehavior="automatic" style={[C.bgDark]}>
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={C.itemsCenter}
+      style={[C.bgDark]}>
       <Text style={[C.textWhite, C.font6, C.alignCenter, C.my4]}>
         🎬 Favorite Movies
       </Text>
       {store && store?.favBadge > 0 ? (
         <FlatList
           data={store?.favorites}
-          numColumns={isNarrow ? 3 : 6}
+          numColumns={isNarrow ? 2 : 6}
           keyExtractor={({title}) => title}
           renderItem={({item}) => (
             <MovieCard

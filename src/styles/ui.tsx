@@ -33,6 +33,10 @@ export const uiKit = () =>
     colors: palette,
   });
 
+export const bordColor = (color = palette.white) => ({
+  borderWidth: 1,
+  borderColor: color,
+});
 export const topRadius = (rad = 4) => ({
   borderTopLeftRadius: rad * BASE_PIXEL,
   borderTopRightRadius: rad * BASE_PIXEL,
