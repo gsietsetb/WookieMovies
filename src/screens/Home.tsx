@@ -39,7 +39,7 @@ export const Home: React.FC = () => {
 
   return useObserver(() => (
     <ScrollView contentInsetAdjustmentBehavior="automatic" style={[C.bgDark]}>
-      {store && <SearchBar number={store?.matchingSearch?.length || 0} />}
+      {store && <SearchBar number={store?.matchingFilters?.length || 0} />}
 
       {/** Category filter pills*/}
       {store?.categories && (

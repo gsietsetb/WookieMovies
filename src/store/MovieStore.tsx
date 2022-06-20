@@ -40,7 +40,7 @@ export interface MovieStore {
   setSearchMovies: (newMovies: MoviesList) => void;
   toggleCategoryFilter: (key: string) => void;
   readonly matchingSearch: Array<Movie>;
-  castFilter: any[];
+  castFilter: string[];
   setSearch: (pattern: string, keys?: string[]) => void;
   readonly matchingFilters: Array<Movie>;
   readonly matchingCategories: object;
@@ -49,7 +49,7 @@ export interface MovieStore {
   clearSearch: () => void;
   readonly cast: object;
   search: string;
-  categoryFilter: any[];
+  categoryFilter: string[];
   toggleFavorite: (currentId: string) => void;
   readonly favBadge: number;
   readonly noResults: boolean;
@@ -85,6 +85,8 @@ export const createMovieStore = () => {
     },
     clearSearch: () => {
       store.search = '';
+      store.castFilter = [];
+      store.categoryFilter = [];
     },
 
     get matchingSearch(): Array<Movie> {
@@ -130,12 +132,13 @@ export const createMovieStore = () => {
     get matchingFilters() {
       return _.isEmpty(store.castFilter)
         ? store.matchingSearch
-        : store.matchingSearch.filter(
-            (current: Movie) => {
-              let found = false;
-              _.includes(current.cast, store.castFilter[0]);
-            } /*store.castFilter.map(actor =>*/,
-          );
+        : store.matchingSearch.filter((current: Movie) => {
+            let found = false;
+            found = store.castFilter.some((actor: string) =>
+              _.includes(current.cast, actor),
+            );
+            return found;
+          });
     },
 
     /* Category filter*/

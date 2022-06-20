@@ -9,11 +9,11 @@ export const fetchConfig: RequestInit = {
   headers: new Headers({Authorization: 'Bearer Wookie2019'}),
 };
 
-export const toggleList = (list: Array<Movie>, name: string) => {
+export const toggleList = (list: string[], name: string) => {
   _.includes(list, name) ? _.remove(list, c => c === name) : list.push(name);
   return list;
 };
-export const sortByLength = (list: Object) =>
+export const sortByLength = (list: object) =>
   Object.keys(list).sort((a, b) => (list[a].length > list[b].length ? -1 : 1));
 
 export const groupByTopic = (list: Array<Movie>, topic = 'genres') =>
@@ -28,11 +28,6 @@ export const groupByTopic = (list: Array<Movie>, topic = 'genres') =>
     });
     return accum;
   }, {});
-
-export const toggleObjKey = (obj: Object, key: string) => {
-  obj[key].marked = !obj[key].marked;
-  return {...obj};
-};
 
 export const flattenByKey = (list: [], key = 'name') =>
   list.map(item => item[key]);
