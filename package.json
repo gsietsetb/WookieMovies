@@ -6,20 +6,37 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest .src",
+    "pods": "cd ios && arch -x86_64 pod install",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "react": "17.0.2",
-    "react-native": "0.68.2"
+    "@react-navigation/bottom-tabs": "^6.3.1",
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.2",
+    "consistencss": "^1.7.0",
+    "lodash": "^4.17.21",
+    "mobx": "^6.6.0",
+    "mobx-react": "^7.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-native": "0.68.2",
+    "react-native-ratings": "^8.1.0",
+    "react-native-safe-area-context": "^4.3.1",
+    "react-native-screens": "^3.13.1",
+    "react-native-toast-message": "^2.1.5",
+    "react-native-vector-icons": "^9.1.0",
+    "usehooks-ts": "^2.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^28.1.2",
+    "@types/lodash": "^4.14.182",
     "@types/react-native": "^0.67.3",
-    "@types/react-test-renderer": "^17.0.1",
+    "@types/react-native-vector-icons": "^6.4.10",
+    "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "babel-jest": "^26.6.3",
@@ -27,7 +44,7 @@
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.67.0",
     "react-test-renderer": "17.0.2",
-    "typescript": "^4.4.4"
+    "typescript": "^4.7.4"
   },
   "resolutions": {
     "@types/react": "^17"
