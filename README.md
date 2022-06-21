@@ -1,9 +1,10 @@
 # 🎬 Wookie Movies
 
+![Wookie Movies](./Designs/mockup.png)
+
 ## 🍿 Netflix clone with ⚛️ React Native - Typescript
 
-by Guillermo Sierra
-![Wookie Movies](./Designs/mockup.png)
+by [Guillermo Sierra](https://dgfolio.com/)
 
 ## Tech Stack
 
