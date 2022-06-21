@@ -27,10 +27,11 @@ by Guillermo Sierra
   
 
 - 💡 Collapsable Tip for Favorites with Toast info
-
+- 🙅‍♂️ Empty state `404` component
 - 🌘 Dark Mode
-
+- 🎞 Sticky Header
 - 📡 Offline support
+- 🧪 Unit Testing: `utils/data`
 
 ## ✨ Future ideas
 - 💻 React Native Web support

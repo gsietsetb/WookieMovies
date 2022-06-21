@@ -9,7 +9,7 @@
  */
 
 import React from 'react';
-import {LogBox, SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import {LogBox, SafeAreaView, StatusBar} from 'react-native';
 
 import {bordColor, uiKit} from './styles/ui';
 import {useObserver} from 'mobx-react';
@@ -39,10 +39,8 @@ const toastConfig = {
 
 LogBox.ignoreLogs(['Warning:', 'Error']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  return useObserver(() => (
+const App = () =>
+  useObserver(() => (
     <StoreProvider>
       <SafeAreaView style={[C.bgDark, C.flex]}>
         <StatusBar barStyle={'light-content'} />
@@ -51,6 +49,5 @@ const App = () => {
       </SafeAreaView>
     </StoreProvider>
   ));
-};
 
 export default App;

@@ -1,12 +1,14 @@
-import {Movie} from '../screens/MovieDetails';
 import _ from 'lodash';
+import {CategoryMap, Movie, MoviesList} from '../store/MovieTypes';
+
+const fetch = require('node-fetch');
 
 export const BASE_URL = 'https://wookie.codesubmit.io/movies';
 export const SEARCH_URL = 'https://wookie.codesubmit.io/movies?q=';
 
 export const fetchConfig: RequestInit = {
   method: 'GET',
-  headers: new Headers({Authorization: 'Bearer Wookie2019'}),
+  headers: new fetch.Headers({Authorization: 'Bearer Wookie2019'}),
 };
 
 export const toggleList = (list: string[], name: string) => {
@@ -17,11 +19,15 @@ export const toggleList = (list: string[], name: string) => {
 export const isFilterSelected = (list: string[], name: string) =>
   _.isEmpty(list) ? true : _.includes(list, name);
 
-export const sortByLength = (list: object) =>
+export const sortByLength = (list: CategoryMap) =>
   Object.keys(list).sort((a, b) => (list[a].length > list[b].length ? -1 : 1));
 
-export const groupByTopic = (list: Array<Movie>, topic = 'genres') =>
-  list.reduce((accum: Object, currentMovie: Movie) => {
+export const groupByTopic = (
+  list: MoviesList,
+  topic: keyof CategoryMap = 'genres',
+) =>
+  list.reduce((accum: CategoryMap, currentMovie: Movie) => {
+    // @ts-ignore
     currentMovie[topic].map((currentKind: string) => {
       if (accum.hasOwnProperty(currentKind)) {
         accum[currentKind].push(currentMovie);
@@ -32,8 +38,3 @@ export const groupByTopic = (list: Array<Movie>, topic = 'genres') =>
     });
     return accum;
   }, {});
-
-export const flattenByKey = (list: [], key = 'name') =>
-  list.map(item => item[key]);
-export const matchingKeyArrays = (arr1: [], arr2: []) =>
-  arr1.some(r => arr2.includes(r));

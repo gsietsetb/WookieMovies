@@ -1,7 +1,6 @@
 import React from 'react';
 import {FlatList, ScrollView, Text} from 'react-native';
 import C from 'consistencss';
-import {Movie} from './MovieDetails';
 import {useNavigation} from '@react-navigation/native';
 import MovieCard from '../comp/MovieCard';
 import {Routes} from '../routes';
@@ -9,26 +8,14 @@ import {useStores} from '../store/MovieProvider';
 import {useObserver} from 'mobx-react';
 import {isNarrow} from '../styles/ui';
 import EmptyScreen from '../comp/EmptyScreen';
+import {Movie} from '../store/MovieTypes';
 
 export const Favorites: React.FC = () => {
   const store = useStores();
   const {navigate} = useNavigation();
-  /*const {data: moviesList, error} = useFetch<MoviesList>(BASE_URL, {
-       ...fetchConfig,
-     });
-
-     if (error) {
-       Alert.alert('Fetching Error', 'Got an Error fetching movies...' + error);
-     }
-
-     /!**Update stores when fetching data*!/
-     useEffect(() => {
-       if (store && moviesList) {
-         store?.setMovies(moviesList);
-       }
-     }, [store, moviesList]);*/
 
   const openDetails = (item: Movie) =>
+    // @ts-ignore
     navigate(Routes.MOVIE_DETAILS, {movie: item});
 
   return useObserver(() => (
@@ -54,7 +41,7 @@ export const Favorites: React.FC = () => {
         />
       ) : (
         <EmptyScreen
-          search={store.search}
+          search={store?.search || ''}
           onClear={() => store?.clearSearch()}
         />
       )}

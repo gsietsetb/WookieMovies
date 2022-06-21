@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, FlatList, ScrollView, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import {useFetch} from 'usehooks-ts';
 import {
   BASE_URL,
@@ -8,7 +15,6 @@ import {
   sortByLength,
 } from '../utils/data';
 import C from 'consistencss';
-import {Movie, MoviesList} from './MovieDetails';
 import {useNavigation} from '@react-navigation/native';
 import MovieCard from '../comp/MovieCard';
 import {Routes} from '../routes';
@@ -20,11 +26,16 @@ import EmptyScreen from '../comp/EmptyScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {palette} from '../styles/colors';
 import {BASE_PIXEL, bordColor, isNarrow} from '../styles/ui';
+import {BackendMoviesList, CategoryMap, Movie} from '../store/MovieTypes';
 
-export const Home: React.FC = () => {
+export const Home = () => {
   const store = useStores();
   const [showTip, toggleTip] = useState(true);
-  const {data: moviesList, error} = useFetch<MoviesList>(BASE_URL, fetchConfig);
+  const {data: moviesList, error} = useFetch<BackendMoviesList>(
+    BASE_URL,
+    fetchConfig,
+  );
+  const isLoading = moviesList === undefined;
   const {navigate} = useNavigation();
 
   if (error) {
@@ -34,11 +45,12 @@ export const Home: React.FC = () => {
   /**Update stores when fetching data*/
   useEffect(() => {
     if (store && moviesList) {
-      store?.setMovies(moviesList);
+      store?.setMovies(moviesList.movies);
     }
   }, [store, moviesList]);
 
   const openDetails = (item: Movie) =>
+    // @ts-ignore
     navigate(Routes.MOVIE_DETAILS, {movie: item});
 
   return useObserver(() => (
@@ -110,14 +122,17 @@ export const Home: React.FC = () => {
 
         {/**Genres*/}
         {store &&
-          (store.noResults ? (
+          (isLoading ? (
+            <ActivityIndicator />
+          ) : store.noResults ? (
             <EmptyScreen
               search={store.search}
               onClear={() => store?.clearSearch()}
             />
           ) : (
             store?.matchingCategories &&
-            store.matchingCategories.map(([key, genreMovies]) => (
+            // @ts-ignore
+            store.matchingCategories.map(([key, genreMovies]: CategoryMap) => (
               <View style={[C.pl4, C.my4]} key={key}>
                 <Text style={[C.weightBold, C.textWhite, C.font5, C.mb4]}>
                   {key}

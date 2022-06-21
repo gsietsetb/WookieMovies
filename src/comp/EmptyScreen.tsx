@@ -1,4 +1,4 @@
-import {Button, Image, Text, View} from 'react-native';
+import {Button, Image, ImageStyle, Text, View} from 'react-native';
 import C, {apply} from 'consistencss';
 import React from 'react';
 import {palette} from '../styles/colors';
@@ -22,7 +22,7 @@ export default ({search = '', onClear}: EmptyProps) => (
     <Text style={[C.textWhite]}>Sorry, no results for {search}</Text>
     <Button color={palette.white} title={'Try again?'} onPress={onClear} />
     <Image
-      style={apply(C.h100, C.wFull)}
+      style={apply(C.h100, C.wFull) as ImageStyle}
       resizeMode={'cover'}
       source={{
         uri: emtpy404,

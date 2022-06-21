@@ -1,60 +1,34 @@
 import {makeAutoObservable} from 'mobx';
 import _ from 'lodash';
 import {groupByTopic, toggleList} from '../utils/data';
-import {Movie, MoviesList} from '../screens/MovieDetails';
 import Toast from 'react-native-toast-message';
+import {CategoryMap, Movie, MoviesList} from './MovieTypes';
 
 export const searchKeysDefault = ['title', 'cast'];
 
-/** This could be used to dynamically create Filter by categories
-
- export const createFilterStore = (store: {
-  categories: {[s: string]: unknown} | ArrayLike<unknown>;
-}) => {
-  const filterStore = makeAutoObservable({
-    curentFilters: [],
-    toggleFilters: (key: string) => {
-      filterStore.curentFilters = toggleList(filterStore.curentFilters, key);
-    },
-
-    get matchingMovies(): Object {
-      return _.isEmpty(filterStore.curentFilters)
-        ? Object.entries(store.categories)
-        : Object.entries(store.categories).filter(([key]) =>
-            filterStore.curentFilters.includes(key),
-          );
-    },
-    get noFilters(): boolean {
-      return _.isEmpty(filterStore.curentFilters);
-    },
-  });
-
-  return filterStore;
-};*/
-
 export interface MovieStore {
   toggleNetworkSearch: () => void;
-  readonly favorites: Movie[];
+  readonly favorites: MoviesList;
   toggleCastFilter: (key: string) => void;
   networkSearch: boolean;
   setSearchMovies: (newMovies: MoviesList) => void;
   toggleCategoryFilter: (key: string) => void;
-  readonly matchingSearch: Array<Movie>;
+  readonly matchingSearch: MoviesList;
   castFilter: string[];
   setSearch: (pattern: string, keys?: string[]) => void;
-  readonly matchingFilters: Array<Movie>;
-  readonly matchingCategories: object;
-  movies: Movie[];
-  moviesSearch: Movie[];
+  readonly matchingFilters: MoviesList;
+  readonly matchingCategories: [string, MoviesList][];
+  movies: MoviesList;
+  moviesSearch: MoviesList;
   clearSearch: () => void;
-  readonly cast: object;
+  readonly cast: CategoryMap;
   search: string;
   categoryFilter: string[];
   toggleFavorite: (currentId: string) => void;
   readonly favBadge: number;
   readonly noResults: boolean;
   setMovies: (movies: MoviesList) => void;
-  readonly categories: object;
+  readonly categories: CategoryMap;
   searchKeys: string[];
 }
 
@@ -69,11 +43,11 @@ export const createMovieStore = () => {
     toggleNetworkSearch: () => {
       store.networkSearch = !store.networkSearch;
     },
-    setMovies: (movies: MoviesList) => {
-      store.movies = movies.movies;
+    setMovies: (backendMovies: MoviesList) => {
+      store.movies = backendMovies;
     },
-    setSearchMovies: (newMovies: MoviesList) => {
-      store.moviesSearch = newMovies.movies;
+    setSearchMovies: (backendMovies: MoviesList) => {
+      store.moviesSearch = backendMovies;
     },
 
     /**Internal Search @networkSearch = false */
@@ -89,7 +63,7 @@ export const createMovieStore = () => {
       store.categoryFilter = [];
     },
 
-    get matchingSearch(): Array<Movie> {
+    get matchingSearch(): MoviesList {
       return _.isEmpty(store.search)
         ? store.movies
         : store.networkSearch
@@ -109,14 +83,14 @@ export const createMovieStore = () => {
     },
 
     get noResults(): boolean {
-      return _.isEmpty(store.matchingCategories);
+      return _.isEmpty(store.movies);
     },
 
     get categories() {
       return store.matchingFilters ? groupByTopic(store?.matchingFilters) : {};
     },
 
-    get cast(): object {
+    get cast() {
       return store.matchingSearch
         ? groupByTopic(store?.matchingSearch, 'cast')
         : {};
@@ -185,3 +159,29 @@ export const createMovieStore = () => {
 };
 
 export type TStore = ReturnType<typeof createMovieStore>;
+
+/** This could be used to dynamically create Filter by categories
+
+ export const createFilterStore = (store: {
+  categories: {[s: string]: unknown} | ArrayLike<unknown>;
+}) => {
+  const filterStore = makeAutoObservable({
+    curentFilters: [],
+    toggleFilters: (key: string) => {
+      filterStore.curentFilters = toggleList(filterStore.curentFilters, key);
+    },
+
+    get matchingMovies(): Object {
+      return _.isEmpty(filterStore.curentFilters)
+        ? Object.entries(store.categories)
+        : Object.entries(store.categories).filter(([key]) =>
+            filterStore.curentFilters.includes(key),
+          );
+    },
+    get noFilters(): boolean {
+      return _.isEmpty(filterStore.curentFilters);
+    },
+  });
+
+  return filterStore;
+};*/

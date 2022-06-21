@@ -1,11 +1,11 @@
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, ImageStyle, Text, TouchableOpacity, View} from 'react-native';
 import C, {apply} from 'consistencss';
 import {BASE_PIXEL, topRadius} from '../styles/ui';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {palette} from '../styles/colors';
 import React from 'react';
-import {Movie} from '../screens/MovieDetails';
 import {useObserver} from 'mobx-react';
+import {Movie} from '../store/MovieTypes';
 
 type CardProps = {
   /**
@@ -30,8 +30,7 @@ export default ({movie, onPress, onLongPress}: CardProps) => {
       style={[C.mr4, C.my2, C.bgWhite, C.radius4, C.w30]}>
       <Image
         source={{uri: movie.poster}}
-        // @ts-ignore
-        style={apply(C.h40, topRadius())}
+        style={apply(C.h40, topRadius()) as ImageStyle}
       />
       <View style={[C.m4, C.flex, C.justifyBetween]}>
         <Text numberOfLines={2} style={[C.weightBold, C.mb2]}>
