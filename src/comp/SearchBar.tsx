@@ -39,6 +39,7 @@ export default ({keys = searchKeysDefault, number = 0}: SearchProps) => {
     }
   }, [number]);
 
+  /**Network request to fetch search movies from API*/
   const updateSearchMovies = useCallback(async () => {
     try {
       const response = await fetch(
@@ -61,8 +62,7 @@ export default ({keys = searchKeysDefault, number = 0}: SearchProps) => {
   }, [store?.networkSearch, store?.search.length, updateSearchMovies]);
 
   return useObserver(() => (
-    <View
-      style={[C.m4, C.row, C.px3, C.itemsCenter, C.bgWhite, C.radius2, C.flex]}>
+    <View style={[C.m4, C.row, C.px3, C.itemsCenter, C.bgWhite, C.radius2]}>
       <Icon name="search" size={BASE_PIXEL * 4} color={palette.dark} />
 
       {store && (

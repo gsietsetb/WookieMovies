@@ -1,3 +1,58 @@
+# 🎬 Wookie Movies
+
+## 🍿 Netflix clone with ⚛️ React Native - Typescript
+
+by Guillermo Sierra
+![Wookie Movies](./Designs/mockup.png)
+
+## Tech Stack
+
+- 🎨 Types: [Typescript](https://www.typescriptlang.org/)
+- ⛓ Routing: [React Navigation](https://reactnavigation.org/)
+- ⚙ ️State management: [MobX](https://mobx.js.org/) - True separation of concerns: state and view
+- 🖌 Styling: [Consistencss](https://consistencss.now.sh/)
+- 🧪 Unit tests
+
+## Features
+
+- 🔍 Search  
+    - Offline 
+    - Through API
+  
+- ❤️ Favorite movies 
+
+- 🔬 Filters
+    - Categories (genres)
+    - Cast (actors)
+  
+
+- 💡 Collapsable Tip for Favorites with Toast info
+
+- 🌘 Dark Mode
+
+- 📡 Offline support
+
+## ✨ Future ideas
+- 💻 React Native Web support
+- 🧪 Increase Test coverage
+- Search with different keys
+
+## Mockups
+![Home](./Designs/Home.png)
+![Details](./Designs/Detail.png)
+
+## Install
+
+### ios:
+
+```
+cd ios && pod install
+yarn start
+react-native run-ios
+```
+
+## Test Instructions
+
 ### Objective
 
 Your assignment is to implement a React Native movie listing app.

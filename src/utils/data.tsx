@@ -13,6 +13,10 @@ export const toggleList = (list: string[], name: string) => {
   _.includes(list, name) ? _.remove(list, c => c === name) : list.push(name);
   return list;
 };
+
+export const isFilterSelected = (list: string[], name: string) =>
+  _.isEmpty(list) ? true : _.includes(list, name);
+
 export const sortByLength = (list: object) =>
   Object.keys(list).sort((a, b) => (list[a].length > list[b].length ? -1 : 1));
 
